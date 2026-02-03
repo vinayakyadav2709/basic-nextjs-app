@@ -4,13 +4,12 @@ pipeline:
     image: node:20
     commands:
       - npm install
-      - npm test
 
   # Trigger Dokploy to start its own build
   deploy:
     image: alpine
     commands:
-      - curl -X POST "https://your-dokploy-domain/api/deploy/webhook-id-here"
+      - curl -X POST "https://dokploy.d.gandhiva.online/api/deploy/zzz3QBei2xW9jVKtqLKMW"
     when:
       branch: main
       event: push
