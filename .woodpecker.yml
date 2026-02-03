@@ -7,9 +7,9 @@ pipeline:
 
   # Trigger Dokploy to start its own build
   deploy:
-    image: alpine
-    commands:
-      - curl -X POST "https://dokploy.d.gandhiva.online/api/deploy/zzz3QBei2xW9jVKtqLKMW"
+      image: curlimages/curl  # This image is dedicated to curl commands
+      commands:
+        - curl -X POST "https://dokploy.d.gandhiva.online/api/deploy/zzz3QBei2xW9jVKtqLKMW"
     when:
       branch: main
       event: push
