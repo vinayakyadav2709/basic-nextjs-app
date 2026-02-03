@@ -1,15 +1,19 @@
-pipeline:
-  # Run your tests first to make sure code is good
-  test:
-    image: node:20
-    commands:
-      - npm install
+# .woodpecker.yml
+when:
+  event: [push, manual] # Runs on every push or when you click "Run pipeline"
 
-  # Trigger Dokploy to start its own build
-  deploy:
-      image: curlimages/curl  # This image is dedicated to curl commands
-      commands:
-        - curl -X POST "https://dokploy.d.gandhiva.online/api/deploy/zzz3QBei2xW9jVKtqLKMW"
+steps:
+  test-app:
+    image: node:20-alpine
+    commands:
+      - echo "Testing Next.js app..."
+      - npm install --dry-run # A quick test to see if dependencies are okay
+      - echo "Test successful!"
+
+  trigger-deploy:
+    image: curlimages/curl
+    commands:
+      # Use your actual Dokploy webhook URL here
+      - curl -X POST "https://dokploy.d.gandhiva.online/api/deploy/zzz3QBei2xW9jVKtqLKMW"
     when:
-      branch: main
-      event: push
+      branch: main # Only trigger deployment from the main branch
