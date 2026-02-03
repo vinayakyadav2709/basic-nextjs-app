@@ -1,0 +1,16 @@
+pipeline:
+  # Run your tests first to make sure code is good
+  test:
+    image: node:20
+    commands:
+      - npm install
+      - npm test
+
+  # Trigger Dokploy to start its own build
+  deploy:
+    image: alpine
+    commands:
+      - curl -X POST "https://your-dokploy-domain/api/deploy/webhook-id-here"
+    when:
+      branch: main
+      event: push
