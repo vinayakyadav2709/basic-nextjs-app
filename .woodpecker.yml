@@ -1,19 +1,18 @@
-# .woodpecker.yml
-when:
-  event: [push, manual] # Runs on every push or when you click "Run pipeline"
+kind: pipeline
+name: android-build
 
 steps:
-  test-app:
-    image: node:20-alpine
+  - name: build-app
+    # Use your private registry image
+    image: registry.gandhiva.online/gandhiva-builder:latest
+    # Set to true to always pull the latest image if it changes
+    pull: true 
     commands:
-      - echo "Testing Next.js app..."
-      - npm install --dry-run # A quick test to see if dependencies are okay
-      - echo "Test successful!"
-
-  trigger-deploy:
-    image: curlimages/curl
-    commands:
-      # Use your actual Dokploy webhook URL here
-      - curl -X POST "https://dokploy.d.gandhiva.online/api/deploy/zzz3QBei2xW9jVKtqLKMW"
+      # Step into the android directory
+      - cd android
+      # Run Fastlane using the pre-installed Ruby environment
+      - bundle exec fastlane android internal
     when:
-      branch: main # Only trigger deployment from the main branch
+      # Only run on pushes to the main branch
+      event: push
+      branch: dev
