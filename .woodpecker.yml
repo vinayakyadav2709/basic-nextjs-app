@@ -15,4 +15,4 @@ steps:
     when:
       # Only run on pushes to the main branch
       event: push
-      branch: dev
+      branch: main
