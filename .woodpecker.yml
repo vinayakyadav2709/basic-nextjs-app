@@ -3,16 +3,11 @@ name: android-build
 
 steps:
   - name: build-app
-    # Use your private registry image
     image: registry.gandhiva.online/gandhiva-builder:latest
-    # Set to true to always pull the latest image if it changes
     pull: true 
     commands:
-      # Step into the android directory
       - cd android
-      # Run Fastlane using the pre-installed Ruby environment
       - bundle exec fastlane android internal
     when:
-      # Only run on pushes to the main branch
-      event: push
-      branch: main
+      - event: [push, manual] # Added manual so you can trigger it from the UI
+        branch: [dev, main]   # Matches dev or main
